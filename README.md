@@ -1,6 +1,3 @@
-Certainly! Here's the modified README.md content with numbers rounded to two decimal places and percentages added:
-
-```markdown
 # Medical and Non-Medical Document Classifier
 
 This project aims to build a classifier to distinguish between medical and non-medical documents using Wikipedia data. Two approaches have been explored for model training and evaluation.
@@ -49,4 +46,3 @@ The second option, employing cross-validation, tends to provide a more robust ev
 3. **Mitigating Overfitting:** Cross-validation helps detect and mitigate overfitting by providing a more comprehensive assessment of how well the model generalizes to different subsets of the data.
 
 In summary, the second option with cross-validation provides a more reliable estimate of the model's performance, contributing to higher accuracy scores compared to a simple train-test split.
-```
