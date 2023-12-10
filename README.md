@@ -14,7 +14,7 @@ This project aims to build a classifier to distinguish between medical and non-m
 - Data is fetched from various Wikipedia categories related to medical and non-medical topics.
 - Text preprocessing involves HTML tag removal, tokenization, and removing non-alphabetic characters, with options for stopwords removal, stemming, and lemmatization.
 - Documents are labeled (1 for medical, 0 for non-medical) and split into training, validation, and test sets.
-- Bag of Words models (Naive Bayes and Logistic Regression) are trained and evaluated on validation and test sets, yielding the following results:
+- Naive Bayes and Logistic Regression are trained and evaluated on validation and test sets, yielding the following results:
   - Naive Bayes Validation Accuracy: 82.70%
   - Logistic Regression Validation Accuracy: 88.72%
   - Naive Bayes Test Accuracy: 79.70%
