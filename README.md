@@ -1,48 +1,59 @@
-# Medical and Non-Medical Document Classifier
+# Wikipedia Text Classification Pipeline
 
-This project aims to build a classifier to distinguish between medical and non-medical documents using Wikipedia data. Two approaches have been explored for model training and evaluation.
+This document provides an overview of the pipeline for text classification of Wikipedia documents into medical and non-medical categories using machine learning models.
 
-## Option One: Train a Model using Train-Test Split
+## 1. Data Collection
 
-### Libraries Used
-- NLTK
-- Requests
-- Scikit-learn
-- BeautifulSoup
+The script begins by fetching documents from Wikipedia based on specified categories. Two sets of categories are considered: medical and non-medical. The `get_documents_from_category` function utilizes the Wikipedia API to retrieve documents. The obtained documents are stored in separate lists for medical and non-medical categories.
 
-### Approach
-- Data is fetched from various Wikipedia categories related to medical and non-medical topics.
-- Text preprocessing involves HTML tag removal, tokenization, and removing non-alphabetic characters, with options for stopwords removal, stemming, and lemmatization.
-- Documents are labeled (1 for medical, 0 for non-medical) and split into training, validation, and test sets.
-- Naive Bayes and Logistic Regression are trained and evaluated on validation and test sets, yielding the following results:
-  - Naive Bayes Validation Accuracy: 82.70%
-  - Logistic Regression Validation Accuracy: 88.72%
-  - Naive Bayes Test Accuracy: 79.70%
-  - Logistic Regression Test Accuracy: 80.50%
+## 2. Data Preprocessing
 
-## Option Two: Train a Model using Cross-Validation
+### 2.1. Text Cleaning
 
-### Approach
-- Similar data preprocessing steps are employed.
-- This approach involves using cross-validation (5-fold) on the training set for both Naive Bayes and Logistic Regression models.
-- Cross-validation scores are as follows:
-  - Naive Bayes Cross-Validation Scores: [82.40%, 82.40%, 79.60%, 86.50%, 69.50%]
-  - Logistic Regression Cross-Validation Scores: [83.80%, 85.20%, 84.50%, 81.60%, 84.40%]
-- Average cross-validation scores:
-  - Naive Bayes: 80.10%
-  - Logistic Regression: 83.90%
-- Test set accuracies:
-  - Naive Bayes: 81.40%
-  - Logistic Regression: 83.10%
+The `preprocess_text` function is applied to clean the retrieved text data. This function performs the following tasks:
 
-### Explanation for High Accuracy in Option Two
+- Removal of HTML tags using BeautifulSoup.
+- Tokenization of the text.
+- Removal of non-alphabetic characters.
+- Optionally, removal of stopwords, stemming, and lemmatization based on user preferences.
 
-The second option, employing cross-validation, tends to provide a more robust evaluation of the model's performance compared to a simple train-test split. Here are some reasons why the accuracy becomes higher in the second option:
+### 2.2. Handling Empty Documents
 
-1. **Utilizing More Data for Training:** Cross-validation involves training the model on different subsets of the training data, ensuring that the model learns from a larger portion of the available data. This can lead to a more generalized and better-performing model.
+An additional step is added to remove empty documents after preprocessing. The `if doc.strip():` condition checks if the document is non-empty after stripping leading and trailing whitespace. Empty documents are excluded from further processing.
 
-2. **Reducing Variance:** Cross-validation helps reduce the variance in performance estimation. By training and evaluating the model multiple times on different data splits, the evaluation becomes less dependent on the specific random choice of training and testing instances.
+## 3. Data Storage
 
-3. **Mitigating Overfitting:** Cross-validation helps detect and mitigate overfitting by providing a more comprehensive assessment of how well the model generalizes to different subsets of the data.
+The preprocessed data is then stored in a CSV file named `wikipedia_documents_labels.csv`. This CSV file contains two columns: 'Text' for the preprocessed documents and 'Label' indicating whether the document belongs to the medical (1) or non-medical (0) category.
 
-In summary, the second option with cross-validation provides a more reliable estimate of the model's performance, contributing to higher accuracy scores compared to a simple train-test split.
+## 4. Model Training and Evaluation
+
+### 4.1. Train-Test Split
+
+The data is split into training and test sets using the `train_test_split` function.
+
+### 4.2. Model Creation
+
+Two machine learning models are employed:
+
+- Naive Bayes model (`MultinomialNB`) using the `CountVectorizer`.
+- Logistic Regression model (`LogisticRegression`) using the `CountVectorizer`.
+
+### 4.3. Cross-Validation
+
+Cross-validation is performed on the training set to assess the models' performance using accuracy scores.
+
+### 4.4. Model Training
+
+The models are trained on the entire training set.
+
+### 4.5. Model Evaluation
+
+The trained models are evaluated on the test set, and metrics such as accuracy, precision, and F1 score are calculated.
+
+## 5. Results
+
+The results are displayed in a DataFrame, showing the accuracy, precision, and F1 score for both the Naive Bayes and Logistic Regression models.
+
+## 6. Conclusion
+
+The pipeline demonstrates the process of collecting, preprocessing, and classifying Wikipedia documents into medical and non-medical categories using machine learning models. Users can explore and modify the pipeline for other text classification tasks.
